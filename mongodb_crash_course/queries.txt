@@ -1,0 +1,219 @@
+to access database go to 
+cs C:\Program Files\MongoDB\Server\4.2\bin
+
+// Query 1 - to insert 1
+db.project.insert({
+    title: 'Post One',
+    body: 'Body of Post One',
+    category: 'News',
+    likes: 4,
+    tags: ['news', 'events'],
+    user: {
+        name: 'John Doe',
+        status: 'Author'
+    },
+    date: Date()
+})
+
+// Query 2 - to insert many
+db.project.insertMany([
+    {
+        title: 'Post Two',
+        body: 'Body of Post Two',
+        category: 'Technolody',
+        date: Date()
+    },
+    {
+        title: 'Post Three',
+        body: 'Body of Post Three',
+        category: 'News',
+        date: Date()
+    },
+    {
+        title: 'Post Four',
+        body: 'Body of Post Four',
+        category: 'Entertainment',
+        date: Date()
+    }
+])
+
+// Query 3 - to print something out for each Post
+db.project.find().forEach(function(doc) { print('Blog Post: ' + doc.title) }) 
+// You can use any argument - doc.title, doc.body, doc.date, whatever is present in the document
+
+// Query 4 - to Update a document (Method 1)
+db.project.update({ title: 'Post Two'}, 
+    {
+        title: 'Post Two Updated',
+        body: 'Updated value of body for Post Two',
+        date: Date()
+    },
+    {
+        upsert: true
+    }
+)
+// Upsert - if value is not present in the document it will add it into the document
+
+// Method 2 - to keep whatever is not updated as the value present in the old Query
+db.project.update({ title: 'Post Two Updated' },
+    {
+        $set: {
+            body: 'Updated body through $set operator',
+            category: 'Technology'
+        }
+    }
+)
+
+// To increment value - such as likes in Post One
+db.project.update({ title: 'Post One' },
+    {
+        $inc: {
+            likes: 2
+        }
+    }
+)
+// $inc increments the value of likes by the value written after the ':' symbol
+
+// To rename a particular field - use the $rename operator
+db.project.update({ title: 'Post One' }, 
+    { 
+        $rename : {
+            likes: 'views'
+        }
+    }
+)
+
+// To delete a document in a Collection - .remove()
+db.project.remove({ title: 'Post Four' })
+
+// How to have sub-documents and comments
+db.project.update({ title: 'Post One' }, 
+    { 
+        $set : {
+            comments: [
+                {
+                    user: 'Mary Williams',
+                    body: 'Comment One',
+                    date: Date()
+                },
+                {
+                    user: 'Mister Williams',
+                    body: 'Comment Two',
+                    date: Date()
+                }
+            ]
+        }
+    }
+)
+
+// To find a post with a specific comment - $elemMatch operator
+db.project.find({
+    comments: {
+        $elemMatch: {
+            user: 'Mary Williams'
+        }
+    }
+}).pretty()
+
+// To search for a particular value - createIndex()
+db.project.createIndex({ title: 'text' }) // creates a text index for title
+// And then to search in the .find() function use the $text operator and the $search operator
+
+db.project.find({
+    $text: {
+        $search: "\"Post O\""       // To escape certain characters we used the \" - to include "" in the search field
+    }
+})
+
+// We can also do > < operations - first add views to another document
+db.project.update({ title: 'Post Two Updated' },
+    {
+        $set: {
+            title: 'Post Two',
+            views: 10
+       }       
+    }
+)
+// Then perform the < > operations user operators $gt and $lt
+db.project.find({
+    views: {
+        $gte: 6
+    }
+})
+
+// To exit type - exit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

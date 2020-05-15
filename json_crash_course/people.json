@@ -1,0 +1,67 @@
+{
+    "people" : [
+        {
+            "name" : "jane doe",
+            "age" : 30
+        },
+        {
+            "name" : "pratyush",
+            "age" : 20
+        },
+        {
+            "name" : "sarah",
+            "age" : 21
+        },
+        {
+            "name": "arnold",
+            "age": "hublabla"
+        }
+    ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
